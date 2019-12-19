@@ -32,10 +32,28 @@ for ((i=1; i<=2; i++))
 new_year=$(date +'%Y')
 let new_year++
 tput setaf 1; tput bold
-tput cup $lin $((c - 6)); echo MERRY CHRISTMAS
-tput cup $((lin + 1)) $((c - 10)); echo And lots of CODE in $new_year
+
+let lin--
+
+tput setaf 7; tput bold
+tput cup $((lin + 0)) $((c - 6)); echo "   |\      _,,,---,,_"
+tput cup $((lin + 1)) $((c - 6)); echo '   />`.-'"'"'`'"'"'    -.  ;-;;,_'
+tput cup $((lin + 2)) $((c - 6)); echo '  |>4-  ) )-,_..;\ (  `'"'"'-'"'"''
+tput cup $((lin + 3)) $((c - 6)); echo ' '"'"'---'"''"'(_/--'"'"'  `-'"'"'\_)  '
+tput setaf 1; tput bold
+tput cup $((lin + 4)) $((c - 6)); echo MERRY CHRISTMAS
+tput cup $((lin + 5)) $((c - 10)); echo And lots of CODE in $new_year
 let c++
 k=1
+
+tput sgr0; tput setaf 3
+
+# Trunk
+for ((i=1; i<=2; i++))
+{
+    tput cup $((lin - i + 1)) $((c - 1))
+    echo 'mWm'
+}
 
 # Lights and decorations
 while true; do
@@ -60,7 +78,7 @@ while true; do
         sh=1
         for l in C O D E
         do
-            tput cup $((lin+1)) $((c+sh))
+            tput cup $((lin+5)) $((c+sh))
             echo $l
             let sh++
             sleep 0.01
