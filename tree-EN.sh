@@ -9,6 +9,8 @@ est=$((c-2))
 color=0
 tput setaf 2; tput bold
 
+screenbuf[x]=""
+
 # Tree
 for ((i=1; i<20; i+=2))
 {
@@ -16,6 +18,9 @@ for ((i=1; i<20; i+=2))
     for ((j=1; j<=i; j++))
     {
         echo -n \*
+        coln=$((col+j))
+        ky=$((coln*100+lin))
+        screenbuf[$ky]="\*"
     }
     let lin++
     let col--
@@ -55,6 +60,20 @@ for ((i=1; i<=2; i++))
     echo 'mWm'
 }
 
+zzz[0]=0
+zzz[1]=0
+zzz[2]=0
+zzz[3]=0
+zzzmin[0]=4
+zzzmin[1]=3
+zzzmin[2]=2
+zzzmin[3]=1
+zzzmag[0]=7
+zzzmag[1]=7
+zzzmag[2]=5
+zzzmag[3]=3
+zzzgh=3
+
 # Lights and decorations
 while true; do
     for ((i=1; i<=35; i++)) {
@@ -74,6 +93,34 @@ while true; do
         line[$k$i]=$li
         column[$k$i]=$co
         color=$(((color+1)%8))
+
+        iii=$((i%4))
+        [ $iii -gt 2 ] && {
+            for ((j=0; j<4; j++)) {
+                li=$((lin - 4 + j))
+                coln=${zzz[$j]}
+                [ $coln -gt 0 ] && {
+                    ky=$((coln*100+lin))
+                    tput cup $li ${zzz[$j]}
+                    tput setaf 2; tput bold
+                    [ $j -gt 2 ] && {
+                        echo " "
+                    }
+                    [ $j -lt 3 ] && {
+                        echo \*
+                    }
+                }
+
+                co=$((RANDOM % zzzmag[j] + c - zzzmin[j] - zzzgh))
+                zzz[$j]=$co
+                tput setaf 7; tput bold
+                tput cup $li $co
+                echo Z
+            }
+        }
+
+        tput setaf $color; tput bold   # Switch colors
+
         # Flashing text
         sh=1
         for l in C O D E
